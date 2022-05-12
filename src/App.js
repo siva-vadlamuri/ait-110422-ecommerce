@@ -1,13 +1,12 @@
-import logo from "./logo.svg";
 import "./App.css";
-import Products from "./components/products/Products";
 import Header from "./components/Header/Header";
+import Router from "./router/Router";
 
 function App() {
   return (
     <div className="App">
       <Header />
-      <Products />
+      <Router />
     </div>
   );
 }
