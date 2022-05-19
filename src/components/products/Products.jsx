@@ -1,21 +1,23 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { fetchProducts } from "../../redux/product-actions/ProductActions";
 function Products() {
-  const [products, setProducts] = useState([]);
+  const products = useSelector((state) => state.productsData.products);
+  const dispatch = useDispatch();
 
-  const getProducts = async () => {
-    const response = await fetch("http://fakestoreapi.com/products/");
-    const data = await response.json();
-    setProducts(data);
-  };
   useEffect(() => {
-    getProducts();
+    try {
+      dispatch(fetchProducts());
+    } catch (error) {
+      console.log(error);
+    }
   }, []);
   return (
     <div>
       <div className="container py-5">
         <div className="row">
-          {products.length > 0 ? (
+          {products && products.length > 0 ? (
             products.map((product) => (
               <div key={product.id} className="col-md-3">
                 <Link to={`/product/${product.id}`}>
@@ -33,7 +35,12 @@ function Products() {
               </div>
             ))
           ) : (
-            <p>Loading...</p>
+            <div>
+              <img
+                src="https://miro.medium.com/max/1400/1*CsJ05WEGfunYMLGfsT2sXA.gif"
+                alt="loader"
+              />
+            </div>
           )}
         </div>
       </div>
